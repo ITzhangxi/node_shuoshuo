@@ -12,4 +12,4 @@
  
  ## 运行
  > npm install
- > run app.js*``*
+ > run app.js
