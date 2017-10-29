@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <title>班级说说</title>
+
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+
+        .bg {
+            width: 100%;
+            height: 90%;
+            background: url("/login.jpg") no-repeat;
+            background-size: 100% 100%;
+            position: relative;
+        }
+
+        .regist {
+            box-sizing: border-box;
+            position: absolute;
+            top: 50%;
+            right: 200px;
+            transform: translateY(-90px);
+            width: 360px;
+            height: 250px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            border-radius: 5px;
+            padding: 30px 15px;
+
+        }
+
+        .warning {
+            width: 100%;
+            height: 20px;
+            color: red;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse  navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="javascript:;">欢迎登录</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="bg">
+    <div class="regist">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="username" placeholder="请输入姓名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-10">
+                    <input type="password" class="form-control" id="password" placeholder="请输入密码">
+                </div>
+            </div>
+            <div class="warning">
+                <label for="password" class="col-sm-2 control-label"></label>
+                <div class="col-sm-10" id="warningTip">
+                    234
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="agree"> 同意协议
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="button" id="btn" class="btn btn-default">登 录</button>
+                    <button type="button" id="regist" class="btn btn-default">注 册</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2016 Company, Inc.</p>
+</footer>
+</div> <!-- /container -->
+<script src="/jquery/dist/jquery.min.js"></script>
+<script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
+<script>
+    $('#btn').click(function () {
+        if ($('#username').val() != '' && $('#password').val() != '') {
+            if ($('#agree')[0].checked) {
+                $.ajax({
+                    method: 'POST',
+                    url: '/login',
+                    data: {
+                        username: $('#username').val(),
+                        password: $('#password').val()
+                    },
+                    success: function (response) {
+                        if (response.code === 1) {
+                            $('.warning').fadeOut();
+                            window.location.href = '/';
+                        } else {
+                            $('#warningTip').html(response.msg);
+                            $('.warning').fadeIn();
+                        }
+
+                    }
+                })
+            } else {
+                alert('请填阅读协议！')
+            }
+
+        } else {
+            alert('请填写姓名和密码！')
+        }
+        ;
+
+    });
+
+    $('#regist').click(function () {
+        window.location.href = '/regist';
+    });
+</script>
